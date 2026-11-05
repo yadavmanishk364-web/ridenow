@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RideNow - Book Cabs, Autos & Bikes Online</title>
+    <!-- Google Fonts & FontAwesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #111111;
+            --accent: #ffc107; /* Uber/Ola style yellow accent */
+            --bg-light: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-main: #212121;
+            --text-muted: #757575;
+            --border-color: #e0e0e0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Navbar */
+        header {
+            background: var(--primary);
+            color: #fff;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            color: #fff;
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        .nav-contact {
+            font-size: 13px;
+            background: rgba(255,255,255,0.1);
+            padding: 6px 14px;
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        /* Main Container */
+        .main-container {
+            flex: 1;
+            max-width: 1200px;
+            width: 100%;
+            margin: 20px auto;
+            padding: 0 15px;
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 850px) {
+            .main-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Booking Card */
+        .booking-card {
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            border: 1px solid var(--border-color);
+        }
+
+        .booking-card h2 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 15px;
+        }
+
+        .input-group i {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 16px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px 15px 12px 45px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+            background: #fafafa;
+            transition: 0.3s;
+        }
+
+        .input-group input:focus {
+            border-color: var(--primary);
+            background: #fff;
+            box-shadow: 0 0 0 3px rgba(0,0,0,0.05);
+        }
+
+        /* Vehicle Options */
+        .vehicles-section {
+            margin: 20px 0;
+        }
+
+        .vehicles-section h3 {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .vehicle-option {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 15px;
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .vehicle-option:hover, .vehicle-option.selected {
+            border-color: var(--primary);
+            background: rgba(0,0,0,0.02);
+        }
+
+        .vehicle-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .vehicle-info i {
+            font-size: 24px;
+            color: var(--primary);
+            width: 30px;
+            text-align: center;
+        }
+
+        .vehicle-name {
+            font-weight: 600;
+            font-size: 15px;
+        }
+
+        .vehicle-time {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .vehicle-price {
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        .book-btn {
+            width: 100%;
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            padding: 14px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 10px;
+        }
+
+        .book-btn:hover {
+            opacity: 0.9;
+        }
+
+        /* Map Simulator Box */
+        .map-simulator {
+            background: #e9ecef;
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            min-height: 350px;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .map-simulator i {
+            font-size: 48px;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+        }
+
+        .map-simulator h4 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .map-simulator p {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        /* Modal Overlay */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0.2;
+            pointer-events: none;
+            transition: 0.3s;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-box {
+            background: #fff;
+            padding: 30px;
+            border-radius: 16px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transform: scale(0.9);
+            transition: 0.3s;
+        }
+
+        .modal-overlay.active .modal-box {
+            transform: scale(1);
+        }
+
+        .modal-box i.fa-circle-check {
+            font-size: 50px;
+            color: #28a745;
+            margin-bottom: 15px;
+        }
+
+        .modal-box h3 {
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
+
+        .modal-box p {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        .close-modal-btn {
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary);
+            color: #fff;
+            text-align: center;
+            padding: 25px 15px;
+            margin-top: auto;
+            font-size: 13px;
+        }
+
+        .footer-credit {
+            color: var(--accent);
+            font-weight: 600;
+            margin-top: 6px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <header>
+        <div class="logo">Ride<span>Now</span></div>
+        <div class="nav-content">
+            <span class="nav-contact"><i class="fa-solid fa-phone"></i> 9155437755</span>
+        </div>
+    </header>
+
+    <!-- Main Section -->
+    <div class="main-container">
+        <!-- Booking Form -->
+        <div class="booking-card">
+            <h2>Book Your Ride</h2>
+            
+            <div class="input-group">
+                <i class="fa-solid fa-location-dot" style="color: #28a745;"></i>
+                <input type="text" id="pickup" placeholder="Enter pickup location" value="Current Location">
+            </div>
+
+            <div class="input-group">
+                <i class="fa-solid fa-square" style="color: #dc3545;"></i>
+                <input type="text" id="dropoff" placeholder="Where to? (Enter destination)" value="Railway Station, City Center">
+            </div>
+
+            <div class="vehicles-section">
+                <h3>CHOOSE RIDE</h3>
+
+                <div class="vehicle-option selected" onclick="selectVehicle(this, 'Bike', '₹65')">
+                    <div class="vehicle-info">
+                        <i class="fa-solid fa-motorcycle"></i>
+                        <div>
+                            <div class="vehicle-name">RideBike</div>
+                            <div class="vehicle-time">2 mins away · Fast & Cheap</div>
+                        </div>
+                    </div>
+                    <div class="vehicle-price">₹65</div>
+                </div>
+
+                <div class="vehicle-option" onclick="selectVehicle(this, 'Auto', '₹120')">
+                    <div class="vehicle-info">
+                        <i class="fa-solid fa-rickshaw"></i>
+                        <div>
+                            <div class="vehicle-name">RideAuto</div>
+                            <div class="vehicle-time">4 mins away · Doorstep pickup</div>
+                        </div>
+                    </div>
+                    <div class="vehicle-price">₹120</div>
+                </div>
+
+                <div class="vehicle-option" onclick="selectVehicle(this, 'Mini Cab', '₹240')">
+                    <div class="vehicle-info">
+                        <i class="fa-solid fa-car"></i>
+                        <div>
+                            <div class="vehicle-name">RideMini</div>
+                            <div class="vehicle-time">6 mins away · Comfy AC cars</div>
+                        </div>
+                    </div>
+                    <div class="vehicle-price">₹240</div>
+                </div>
+            </div>
+
+            <button class="book-btn" onclick="bookRide()">Request Ride</button>
+        </div>
+
+        <!-- Simulated Map View -->
+        <div class="map-simulator">
+            <i class="fa-solid fa-map-location-dot"></i>
+            <h4>Live GPS Tracking Simulation</h4>
+            <p>Select your route and vehicle to connect with nearby drivers instantly.</p>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal-overlay" id="successModal">
+        <div class="modal-box">
+            <i class="fa-solid fa-circle-check"></i>
+            <h3>Ride Booked Successfully!</h3>
+            <p id="modalDesc">Your driver is on the way to your pickup location.</p>
+            <button class="close-modal-btn" onclick="closeModal()">Done</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 RideNow Technologies. All Rights Reserved.</p>
+        <div class="footer-credit">
+            Developed by Manish Yadav | Contact: 9155437755
+        </div>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        let selectedVehicleType = 'RideBike';
+        let selectedFare = '₹65';
+
+        function selectVehicle(element, type, price) {
+            document.querySelectorAll('.vehicle-option').forEach(el => el.classList.remove('selected'));
+            element.classList.add('selected');
+            selectedVehicleType = type;
+            selectedFare = price;
+        }
+
+        function bookRide() {
+            const pickup = document.getElementById('pickup').value;
+            const dropoff = document.getElementById('dropoff').value;
+
+            if(!pickup || !dropoff) {
+                alert('Please enter both pickup and dropoff locations.');
+                return;
+            }
+
+            document.getElementById('modalDesc').innerText = `Your ${selectedVehicleType} (${selectedFare}) is assigned! Driver is heading from ${pickup} to ${dropoff}.`;
+            document.getElementById('successModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('successModal').classList.remove('active');
+        }
+    </script>
+</body>
+</html>
